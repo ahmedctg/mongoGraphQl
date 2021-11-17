@@ -1,0 +1,69 @@
+## Add Virtual field for parent lavel
+========================================
+    1.Define in model
+    ---------------------------------
+      DepositAccountSchema.virtual('partner', {
+        ref: 'partners',
+        localField: 'partnerId',
+        foreignField: '_id',
+        justOne: true
+      })
+    
+    2.populate in query
+    ---------------------------------
+    const depositAccounts = await DepositAccountCollection.find(query)
+    .populate(['partner'])
+    .limit(limit)
+    .skip(skip)
+    .sort(sort)
+    return depositAccounts
+    
+    
+    
+    
+    
+    
+    
+    
+    3.add virtual field and Type in graphpql file
+    
+    **************
+    2...
+    *************
+    ========================================
+    ## Add Virtual field for nested field
+    ========================================
+        1.Define in model
+    ---------------------------------    
+      DepositAccountSchema.virtual('tenant', {
+        ref: 'tenants',
+        localField: 'tenantId',
+        foreignField: '_id',
+        justOne: true
+      })
+
+      DepositAccountSchema.virtual('tenant.user', {
+        ref: 'users',
+        localField: 'tenant.userId',
+        foreignField: '_id',
+        justOne: true
+      })
+      
+      2.In query
+      ----------------------
+    const depositAccounts = await DepositAccountCollection.find(query)
+    .populate([
+      'partner',
+      {
+        path: 'tenant',
+        populate: {
+          path: 'user',
+          model: 'users'
+        }
+      }
+    ])
+    .limit(limit)
+    .skip(skip)
+    .sort(sort)
+  return depositAccounts
+      
