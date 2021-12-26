@@ -1,0 +1,11 @@
+nano mongoCmd.sh
+
+sudo kill -9 2683
+
+pgrep mongo -- to get current running port
+
+sudo kill -9 2683 -- to kill specifi running port
+
+sudo mongod --port 27018 --dbpath data2/db --replSet rs0
+
+sudo mongod --port 27017 --dbpath data/db --replSet rs0
